@@ -1,0 +1,49 @@
+{% extends 'app/base.html' %}
+{% block content %}
+    <div class="w-50 ml-4">
+        <h3 class="mt-2">Settings</h3>
+        <text class="text-danger">{{ error }}</text>
+        <div class="row mt-2">
+            <div class="col-3">
+                <text class="text-secondary">Login:</text>
+            </div>
+            <div class="col-6">
+                <form>
+                    <input type="text" class="form-control" placeholder="{{ user.user.username }}">
+                </form>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-3">
+                <text class="text-secondary">Email:</text>
+            </div>
+            <div class="col-6">
+                <form>
+                    <input type="text" class="form-control" placeholder="{{ user.email }}">
+                </form>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-3">
+                <text class="text-secondary">Name:</text>
+            </div>
+            <div class="col-6">
+                <form>
+                    <input type="text" class="form-control" placeholder="{{ user.name }}">
+                </form>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-3">
+                <text class="text-secondary">Upload avatar:</text>
+            </div>
+            <div class="col-6">
+                <form class="form-inline">
+                    <input type="text" class="form-control col-6" placeholder="File path">
+                    <button type="button" class="btn btn-secondary ml-4">choose file</button>
+                </form>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success my-2">Submit</button>
+    </div>
+{% endblock %}

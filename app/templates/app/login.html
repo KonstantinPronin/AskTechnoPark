@@ -1,0 +1,37 @@
+{% extends 'app/base.html' %}
+{% block content %}
+    <div class="w-50 ml-4">
+        <h3 class="mt-2">Sign In</h3>
+        <text class="text-danger">Error</text>
+        <div class="row mt-2">
+            <div class="col-2">
+                <text class="text-secondary">Login:</text>
+            </div>
+            <div class="col-6">
+                <form>
+                    <input type="text" class="form-control" placeholder="Enter you login here">
+                </form>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-2">
+                <text class="text-secondary">Password:</text>
+            </div>
+            <div class="col-6">
+                <form>
+                    <input type="text" class="form-control" placeholder="********">
+                </form>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-3">
+                <button type="submit" class="btn btn-success my-2">sign in</button>
+            </div>
+            <div class="col-5">
+                <button onclick="location.href='{% url 'signup' %}'" type="submit" class="btn btn-secondary my-2 ml-2 float-right">
+                    create new account
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

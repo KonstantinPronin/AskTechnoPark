@@ -1,0 +1,73 @@
+{% extends 'app/base.html' %}
+{% block content %}
+    <div class="flex-left w-75 ml-3">
+        <div class="media mt-4">
+            <img class="ml-2 mr-4" src="{{ question.question.author.image }}" width="60" height="60" alt="">
+            <div class="media-body">
+                <h5 class="mt-0 ml-auto text-success">{{ question.question.name }}</h5>
+                <p class="text-secondary">{{ question.question.body }}</p>
+                <div class="row">
+                    <div class="col"> Tags:
+                        {% for tag in question.tags %}
+                            <a class="text-success" href="{% url 'index' tag.name %}">{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-1 mt-1 fixed-right">
+                <div class="row-1">
+                    <button type="button" class="btn btn-success btn-sm px-2">
+                        <img src="../../../static/img/like.png" width="18" height="18" alt="">
+                    </button>
+                </div>
+                <div class="row-1 px-1 my-1 output-xs">
+                    <div class="text-dark px-2">{{ question.question.likes }}</div>
+                </div>
+                <div class="row-1">
+                    <button type="button" class="btn btn-danger btn-sm px-2">
+                        <img src="../../../static/img/dislike.png" width="18" height="18" alt="">
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        {% for answer in question.answers %}
+            <div class="card mt-4">
+                <div class="card-body row">
+                    <img class="mx-4" src="{{ answer.author.image }}" width="60" height="60" alt="">
+                    <div class="col-9">
+                        <p class="card-text text-secondary">
+                            {{ answer.body }}
+                        </p>
+                        <p class="form-inline">
+                            <input type="checkbox">
+                            <text class="text-success pl-2">Correct</text>
+                        </p>
+                    </div>
+                    <div class="col-1 mt-1">
+                        <div class="row-1 ">
+                            <button type="button" class="btn btn-success btn-sm">
+                                <img src="../../../static/img/like.png" width="18" height="18" alt="">
+                            </button>
+                        </div>
+                        <div class="row-1 px-1 my-1 output-xs">
+                            <div class="text-dark px-2">{{ answer.likes }}</div>
+                        </div>
+                        <div class="row-1">
+                            <button type="button" class="btn btn-danger btn-sm">
+                                <img src="../../../static/img/dislike.png" width="18" height="18" alt="">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+        <form>
+            <div class="from-group my-4">
+                <textarea class="form-control mt-6" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <button type="submit" class="btn btn-success mt-2">Answer</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

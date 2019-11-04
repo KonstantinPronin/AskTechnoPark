@@ -1,0 +1,116 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+
+    {% block title %}
+        <title>AskTechnoPark</title>
+    {% endblock %}
+
+</head>
+
+<body>
+<!-- Fixed navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand ml-3 my-auto" href="{% url 'index' 'new' %}">
+        <h2>AskTechnoPark</h2>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+        <form class="form-inline my-2">
+            <input class="form-control mr-sm-2" type="search" placeholder="What is Internet?" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+
+        {% if user.user %}
+            <!-- Authorized user -->
+            <ul class="navbar-nav navbar-dark">
+                <li class="nav-item ml-0 ml-lg-5 my-auto pl-5">
+                    <img src="{{ user.image }}" width="50" height="50" class="d-inline-block align-top"
+                         alt="">
+                </li>
+                <li class="mr-auto">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                <div class="nav-item">
+                                    <text class="text-success">{{ user.user.username }}</text>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row nav-item">
+                            <div class="col">
+                                <div class="nav-item">
+                                    <a class="nav-link text-white pl-0" href="{% url 'settings' user.pk %}">settings</a>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class=nav-item>
+                                    <a class="nav-link text-white pl-0" href="{% url 'login' %}">log out</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="my-2">
+                    <button onclick="location.href='{% url 'ask' %}'" class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                        ASK!
+                    </button>
+                </li>
+            </ul>
+        {% else %}
+            <!-- Unauthorized user -->
+            <ul class="navbar-nav navbar-dark">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'login' %}">log in</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'signup' %}">register</a>
+                </li>
+            </ul>
+        {% endif %}
+    </div>
+</nav>
+
+<!-- Right block -->
+<div class="col-3 blog-sidebar float-md-right float-sm-noun">
+    <div class="p-4 mb-8 bg-light rounded">
+        <h4>Popular tags</h4>
+        <ol class="list mb-0">
+            {% for tag in tags %}
+                <li><a href="{% url 'index' tag.name %}" class="text-secondary">tag.name</a></li>
+            {% endfor %}
+        </ol>
+    </div>
+    <div class="p-4 bg-light">
+        <h4>Best members</h4>
+        <ol class="list mb-0">
+            {% for profile in profiles %}
+                <li><a href="{% url 'settings' profile.id %}" class="text-secondary">profile.name</a></li>
+            {% endfor %}
+        </ol>
+    </div>
+</div>
+
+{% block content %} {% endblock %}
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="{% static "js/jquery-3.3.1.slim.min.js" %}"></script>
+<script src="{% static "js/popper.min.js" %}"></script>
+<script src="{% static "js/bootstrap.min.js" %}"></script>
+</body>

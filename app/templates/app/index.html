@@ -1,0 +1,70 @@
+{% extends 'app/base.html' %}
+{% block content %}
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link text-dark" href='{% url 'index' 'new' %}'>
+                <h3>New questions</h3>
+            </a>
+        </li>
+        <li class="nav-item mt-2">
+            <a class="nav-link text-success" href='{% url 'index' 'hot' %}'>Hot Questions</a>
+        </li>
+    </ul>
+
+    <div class="flex-left w-75 ml-3">
+        {% for question in questions %}
+            <div class="media question-block mt-4">
+                <img class="ml-2 mr-4" src="{{ question.question.author.image }}" width="60" height="60" alt="">
+                <div class="media-body">
+                    <a href="{% url 'question' question.question.pk %}">
+                        <h5 class="mt-0 ml-auto text-success">{{ question.question.name }}</h5>
+                    </a>
+                    <p class="text-secondary">{{ question.question.body }}</p>
+                    <div class="row">
+                        <div class="col">
+                            <a class="text-success" href="{% url 'question' question.question.pk %}">Answers
+                                ({{ question.answers|length }})</a>
+                        </div>
+                        <div class="col"> Tags:
+                            {% for tag in question.tags %}
+                                <a class="text-success" href="{% url 'index' tag.name %}">{{ tag.name }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1 mt-1 fixed-right">
+                    <div class="row-1">
+                        <button type="button" class="btn btn-success btn-sm px-2">
+                            <img src="../../../static/img/like.png" width="18" height="18" alt="">
+                        </button>
+                    </div>
+                    <div class="row-1 px-1 my-1 output-xs">
+                        <div class="text-dark px-2">{{ question.question.likes }}</div>
+                    </div>
+                    <div class="row-1">
+                        <button type="button" class="btn btn-danger btn-sm px-2">
+                            <img src="../../../static/img/dislike.png" width="18" height="18" alt="">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="mt-2 sticky-bottom ml-3">
+        <nav>
+            <ul class="pagination">
+                {% if pages.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link text-dark" href="?page={{ pages.previous_page_number }}">Сюда</a>
+                    </li>
+                {% endif %}
+                {% if pages.has_next %}
+                    <li class="page-item">
+                        <a class="page-link text-dark" href="?page={{ pages.next_page_number }}">Туда</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+{% endblock %}
