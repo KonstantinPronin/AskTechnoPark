@@ -2,12 +2,12 @@
 {% block content %}
     <ul class="nav">
         <li class="nav-item">
-            <a class="nav-link text-dark" href='{% url 'index' 'new' %}'>
+            <a class="nav-link text-dark" href='{% url 'new' %}'>
                 <h3>New questions</h3>
             </a>
         </li>
         <li class="nav-item mt-2">
-            <a class="nav-link text-success" href='{% url 'index' 'hot' %}'>Hot Questions</a>
+            <a class="nav-link text-success" href='{% url 'hot' %}'>Hot Questions</a>
         </li>
     </ul>
 
@@ -56,12 +56,21 @@
             <ul class="pagination">
                 {% if pages.has_previous %}
                     <li class="page-item">
+                        <a class="page-link text-dark" href="?page=1">В начало</a>
+                    </li>
+                    <li class="page-item">
                         <a class="page-link text-dark" href="?page={{ pages.previous_page_number }}">Сюда</a>
                     </li>
                 {% endif %}
+                <li class="page-item">
+                    <a class="page-link text-dark" href="?page={{ pages.number }}">{{ pages.number }}</a>
+                </li>
                 {% if pages.has_next %}
                     <li class="page-item">
                         <a class="page-link text-dark" href="?page={{ pages.next_page_number }}">Туда</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link text-dark" href="?page={{ pages.paginator.num_pages }}">В конец</a>
                     </li>
                 {% endif %}
             </ul>

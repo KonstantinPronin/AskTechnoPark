@@ -69,5 +69,31 @@
                 <button type="submit" class="btn btn-success mt-2">Answer</button>
             </div>
         </form>
+
+       <div class="mt-2 sticky-bottom ml-3">
+        <nav>
+            <ul class="pagination">
+                {% if pages.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link text-dark" href="?page=1">В начало</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link text-dark" href="?page={{ pages.previous_page_number }}">Сюда</a>
+                    </li>
+                {% endif %}
+                <li class="page-item">
+                    <a class="page-link text-dark" href="?page={{ pages.number }}">{{ pages.number }}</a>
+                </li>
+                {% if pages.has_next %}
+                    <li class="page-item">
+                        <a class="page-link text-dark" href="?page={{ pages.next_page_number }}">Туда</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link text-dark" href="?page={{ pages.paginator.num_pages }}">В конец</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
     </div>
 {% endblock %}

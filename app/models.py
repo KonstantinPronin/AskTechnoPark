@@ -1,5 +1,7 @@
 from django.db import models
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 
 
 # Create your models here.
@@ -13,7 +15,7 @@ def get_answers_and_tags_for_question(question):
 
 class QuestionManager(models.Manager):
     def get_hot_questions(self):
-        questions = self.order_by('-like')
+        questions = self.order_by('-likes')
         result = []
         for question in questions:
             result.append(get_answers_and_tags_for_question(question))
@@ -27,13 +29,8 @@ class QuestionManager(models.Manager):
         return result
 
     def get_questions_by_tag(self, tag):
-        if tag == 'hot':
-            return self.get_hot_questions()
-
-        if tag == 'new':
-            return self.get_new_questions()
-
         questions_id = Tag.objects.get_questions_id_by_tag(tag)
+        Question.objects.filter(tag__name=tag)
         questions = self.filter(pk__in=questions_id)
         result = []
         for question in questions:
@@ -52,10 +49,16 @@ class TagManager(models.Manager):
 
 class LikeManager(models.Manager):
     def create(self, *args, **kwargs):
-        if 'question' in kwargs:
-            Question.objects.get(pk=kwargs['question'].pk).increment_likes()
-        if 'answer' in kwargs:
-            Answer.objects.get(pk=kwargs['answer'].pk).increment_likes()
+        content_type = kwargs['content_type']
+        object_id = kwargs['object_id']
+        if content_type == ContentType.objects.get_for_model(Question):
+            Question.objects.get(pk=object_id).increment_likes()
+        if content_type == ContentType.objects.get_for_model(Answer):
+            Answer.objects.get(pk=object_id).increment_likes()
+        # if 'question' in kwargs:
+        #     Question.objects.get(pk=kwargs['question'].pk).increment_likes()
+        # if 'answer' in kwargs:
+        #     Answer.objects.get(pk=kwargs['answer'].pk).increment_likes()
         return super().create(*args, **kwargs)
 
 
@@ -105,7 +108,7 @@ class Answer(models.Model):
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     question = models.ManyToManyField(Question)
     objects = TagManager()
 
@@ -114,7 +117,10 @@ class Tag(models.Model):
 
 
 class Like(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True)
-    answer = models.ForeignKey(Answer, on_delete=models.CASCADE, null=True)
     author = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    # question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True)
+    # answer = models.ForeignKey(Answer, on_delete=models.CASCADE, null=True)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
     objects = LikeManager()
