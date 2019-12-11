@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.core.paginator import Paginator
 from app.models import Profile, Question, Answer, Tag, Like
 from django.contrib.auth.models import User
+from django.contrib import auth
+from django.shortcuts import render, redirect, reverse
 from random import choice
 
 
@@ -13,9 +15,7 @@ def paginate(request, requested_list):
 
 
 def ask(request):
-    # remove all()
-    users = Profile.objects.all()
-    return render(request, 'app/ask.html', {'user': choice(users)})
+    return render(request, 'app/ask.html', {})
 
 
 def hot(request):
@@ -45,8 +45,23 @@ def index(request, tag):
     })
 
 
+def logout(request):
+    auth.logout(request)
+    return redirect(reverse('login'))
+
+
 def login(request):
-    return render(request, 'app/login.html', {'user': {}})
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = auth.authenticate(request, username=username, password=password)
+        if user is not None:
+            auth.login(request, user)
+            next_to = request.POST.get('next', '/new/')
+            return redirect(next_to)
+        else:
+            return render(request, 'app/login.html', {'error_message': 'Invalid login or password'})
+    return render(request, 'app/login.html', {})
 
 
 def question(request, question_id):
@@ -54,16 +69,13 @@ def question(request, question_id):
     pages = paginate(request, q['answers'])
     return render(request, 'app/question.html', {
         'question': q,
-        'user': q['question'].author,
         'pages': pages,
     })
 
 
 def settings(request, user_id):
-    # remove all()
-    users = Profile.objects.all()
-    return render(request, 'app/settings.html', {'user': choice(users)})
+    return render(request, 'app/settings.html', {})
 
 
 def signup(request):
-    return render(request, 'app/signup.html', {'user': {}})
+    return render(request, 'app/signup.html', {})

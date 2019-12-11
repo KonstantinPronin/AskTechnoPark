@@ -2,7 +2,9 @@
 {% block content %}
     <div class="w-50 mx-auto">
         <h3 class="mt-2">Sign Up</h3>
-        <text class="text-danger">Error</text>
+        {% if error_message %}
+            <text class="text-danger">{{ error_message }}</text>
+        {% endif %}
         <div class="row mt-2">
             <div class="col-4">
                 <text class="text-secondary">Login:</text>

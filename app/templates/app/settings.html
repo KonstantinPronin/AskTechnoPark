@@ -2,14 +2,16 @@
 {% block content %}
     <div class="w-50 mx-auto">
         <h3 class="mt-2">Settings</h3>
-        <text class="text-danger">{{ error }}</text>
+        {% if error_message %}
+            <text class="text-danger">{{ error_message }}</text>
+        {% endif %}
         <div class="row mt-2">
             <div class="col-3">
                 <text class="text-secondary">Login:</text>
             </div>
             <div class="col-6">
                 <form>
-                    <input type="text" class="form-control" placeholder="{{ user.user.username }}">
+                    <input type="text" class="form-control" placeholder="{{ user.username }}">
                 </form>
             </div>
         </div>

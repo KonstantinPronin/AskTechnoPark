@@ -46,8 +46,17 @@ class Command(BaseCommand):
                                 author_id=choice(users))
             # Like.objects.create(content_object=choice(answers), author_id=choice(users))
 
+    def create_default_user(self):
+        user = User.objects.create_user('root', 'prosayfer@email.com', 'prosayfer')
+        user.save()
+        Profile.objects.create(user=user, image='/static/img/qwerty.png', email='prosayfer@email.com',
+                               name='Konstantin')
+
     def handle(self, *args, **options):
         cnt = 20
+        # create default user
+        # self.create_default_user()
+
         self.fill_profiles(cnt)
         self.fill_questions(cnt)
         self.fill_answers(cnt)
