@@ -55,7 +55,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         cnt = 20
         # create default user
-        # self.create_default_user()
+        #self.create_default_user()
 
         self.fill_profiles(cnt)
         self.fill_questions(cnt)

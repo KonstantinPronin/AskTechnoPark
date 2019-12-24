@@ -2,12 +2,13 @@
 {% block content %}
     <div class="w-50 mx-auto">
         <h3 class="mt-2">New question</h3>
-        <form>
+        <form method="POST">
+            {% csrf_token %}
             <div class="form-group">
-                <input type="text" class="form-control my-4" placeholder="Title">
-                <textarea class="form-control my-4" id="exampleFormControlTextarea1" rows="6"
+                <input type="text" name="name" class="form-control my-4" placeholder="Title">
+                <textarea class="form-control my-4" name="body" rows="6"
                           placeholder="Question body"></textarea>
-                <input type="text" class="form-control my-4" placeholder="Tags">
+                <input type="text" name="tag" class="form-control my-4" placeholder="Tags">
                 <button type="submit" class="btn btn-success my-2">Submit</button>
             </div>
         </form>

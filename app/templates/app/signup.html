@@ -5,67 +5,58 @@
         {% if error_message %}
             <text class="text-danger">{{ error_message }}</text>
         {% endif %}
-        <div class="row mt-2">
-            <div class="col-4">
-                <text class="text-secondary">Login:</text>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row mt-2">
+                <div class="col-4">
+                    <text class="text-secondary">Login:</text>
+                </div>
+                <div class="col-6">
+                    <input type="text" name="username" class="form-control">
+                </div>
             </div>
-            <div class="col-6">
-                <form>
-                    <input type="text" class="form-control">
-                </form>
+            <div class="row mt-2">
+                <div class="col-4">
+                    <text class="text-secondary">Email:</text>
+                </div>
+                <div class="col-6">
+                    <input type="text" name="email" class="form-control">
+                </div>
             </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-4">
-                <text class="text-secondary">Email:</text>
+            <div class="row mt-2">
+                <div class="col-4">
+                    <text class="text-secondary">Name:</text>
+                </div>
+                <div class="col-6">
+                    <input type="text" name="name" class="form-control">
+                </div>
             </div>
-            <div class="col-6">
-                <form>
-                    <input type="text" class="form-control">
-                </form>
+            <div class="row mt-2">
+                <div class="col-4">
+                    <text class="text-secondary">Password:</text>
+                </div>
+                <div class="col-6">
+                    <input type="text" name="password" class="form-control">
+                </div>
             </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-4">
-                <text class="text-secondary">Name:</text>
+            <div class="row mt-2">
+                <div class="col-4">
+                    <text class="text-secondary">Repeat password:</text>
+                </div>
+                <div class="col-6">
+                    <input type="text" name="rpassword" class="form-control">
+                </div>
             </div>
-            <div class="col-6">
-                <form>
-                    <input type="text" class="form-control">
-                </form>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-4">
-                <text class="text-secondary">Password:</text>
-            </div>
-            <div class="col-6">
-                <form>
-                    <input type="text" class="form-control">
-                </form>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-4">
-                <text class="text-secondary">Repeat password:</text>
-            </div>
-            <div class="col-6">
-                <form>
-                    <input type="text" class="form-control">
-                </form>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-4">
-                <text class="text-secondary">Upload avatar:</text>
-            </div>
-            <div class="col-6">
-                <form class="form-inline">
-                    <input type="text" class="form-control col-6" placeholder="File path">
+            <div class="row mt-2">
+                <div class="col-4">
+                    <text class="text-secondary">Upload avatar:</text>
+                </div>
+                <div class="col-6 form-inline">
+                    <input type="text" class="form-control col-6" placeholder="File path" name="avatar">
                     <button type="button" class="btn btn-secondary ml-4">choose file</button>
-                </form>
+                </div>
             </div>
-        </div>
-        <button type="submit" class="btn btn-success my-2">sign up</button>
+            <button type="submit" class="btn btn-success my-2">sign up</button>
+        </form>
     </div>
 {% endblock %}

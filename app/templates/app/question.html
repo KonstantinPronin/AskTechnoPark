@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        {% for answer in question.answers %}
+        {% for answer in pages %}
             <div class="card mt-4">
                 <div class="card-body row">
                     <img class="mx-4" src="{{ answer.author.image }}" width="60" height="60" alt="">
@@ -63,37 +63,40 @@
             </div>
         {% endfor %}
 
-        <form>
-            <div class="from-group my-4">
-                <textarea class="form-control mt-6" id="exampleFormControlTextarea1" rows="3"></textarea>
-                <button type="submit" class="btn btn-success mt-2">Answer</button>
-            </div>
-        </form>
+        {% if user.is_authenticated %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="from-group my-4">
+                    <textarea class="form-control mt-6" name="answer" rows="3"></textarea>
+                    <button type="submit" class="btn btn-success mt-2">Answer</button>
+                </div>
+            </form>
+        {% endif %}
 
-       <div class="mt-2 sticky-bottom ml-3">
-        <nav>
-            <ul class="pagination">
-                {% if pages.has_previous %}
+        <div class="mt-2 sticky-bottom ml-3">
+            <nav>
+                <ul class="pagination">
+                    {% if pages.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link text-dark" href="?page=1">В начало</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link text-dark" href="?page={{ pages.previous_page_number }}">Сюда</a>
+                        </li>
+                    {% endif %}
                     <li class="page-item">
-                        <a class="page-link text-dark" href="?page=1">В начало</a>
+                        <a class="page-link text-dark" href="?page={{ pages.number }}">{{ pages.number }}</a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link text-dark" href="?page={{ pages.previous_page_number }}">Сюда</a>
-                    </li>
-                {% endif %}
-                <li class="page-item">
-                    <a class="page-link text-dark" href="?page={{ pages.number }}">{{ pages.number }}</a>
-                </li>
-                {% if pages.has_next %}
-                    <li class="page-item">
-                        <a class="page-link text-dark" href="?page={{ pages.next_page_number }}">Туда</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link text-dark" href="?page={{ pages.paginator.num_pages }}">В конец</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
-    </div>
+                    {% if pages.has_next %}
+                        <li class="page-item">
+                            <a class="page-link text-dark" href="?page={{ pages.next_page_number }}">Туда</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link text-dark" href="?page={{ pages.paginator.num_pages }}">В конец</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
     </div>
 {% endblock %}

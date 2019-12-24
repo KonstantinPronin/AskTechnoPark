@@ -13,6 +13,21 @@ def get_answers_and_tags_for_question(question):
             'tags': tags}
 
 
+def get_profile_by_user(user):
+    return Profile.objects.get(user=user)
+
+
+def get_tag_by_name(name):
+    tags = Tag.objects.filter(name=name)
+    result = []
+    for tag in tags:
+        result.append(tag)
+    if not result:
+        tag = Tag.objects.create(name=name)
+        result.append(tag)
+    return result
+
+
 class QuestionManager(models.Manager):
     def get_hot_questions(self):
         questions = self.order_by('-likes')
@@ -55,10 +70,6 @@ class LikeManager(models.Manager):
             Question.objects.get(pk=object_id).increment_likes()
         if content_type == ContentType.objects.get_for_model(Answer):
             Answer.objects.get(pk=object_id).increment_likes()
-        # if 'question' in kwargs:
-        #     Question.objects.get(pk=kwargs['question'].pk).increment_likes()
-        # if 'answer' in kwargs:
-        #     Answer.objects.get(pk=kwargs['answer'].pk).increment_likes()
         return super().create(*args, **kwargs)
 
 
