@@ -48,7 +48,6 @@ def logout(request):
 
 
 def login(request):
-    # default login=root, password=prosayfer
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -127,10 +126,18 @@ def settings(request, user_id):
         avatar = request.POST['avatar']
         try:
             user = request.user
-            user.username = username
-            user.email = email
+            profile = Profile.objects.get(user=user)
+            if username:
+                user.username = username
+            if email:
+                profile.email = email
+                user.email = email
+            if name:
+                profile.name = name
+            if avatar:
+                profile.image = avatar
             user.save()
-            Profile.objects.update(image=avatar, email=email, name=name)
+            profile.save()
         except IntegrityError:
             return render(request, 'app/settings.html', {'error_message': 'Such username already exists'})
     return render(request, 'app/settings.html', {})
